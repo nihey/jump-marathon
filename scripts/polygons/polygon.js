@@ -1,4 +1,3 @@
-import Timer from 'timer';
 import collides from 'collides';
 
 export default class Polygon {
@@ -10,9 +9,9 @@ export default class Polygon {
     this.style = style;
 
     // Physics options
-    this.timer = new Timer();
     this.acceleration = {x: 0, y: 0, angular: 0};
     this.speed = {x: 0, y: 0, angular: 0};
+    this.motions = {x: 0, y: 0};
   }
 
   /*
@@ -38,17 +37,22 @@ export default class Polygon {
   }
 
   physics() {
-    let elapsed = this.timer.elapsed();
+    let elapsed = window.elapsed;
 
     // Change speed
     this.speed.x += elapsed * this.acceleration.x;
     this.speed.y += elapsed * this.acceleration.y;
     this.speed.angular += elapsed * this.acceleration.angular;
 
+    this.motion = {
+      x: this.speed.x * elapsed,
+      y: this.speed.y * elapsed,
+    };
+
     // Change position
     if (!this.speed.angular) {
       // If there is no angular motion, simply calculate common speed motion
-      this.move(this.speed.x * elapsed, this.speed.y * elapsed);
+      this.move(this.motion.x, this.motion.y);
     } else {
       // angular motion makes things a little more complicated, it requires an
       // anchor point on which we are rotation the polygon against (center)
@@ -70,12 +74,10 @@ export default class Polygon {
         this.points[i].y = (translated.x * sin + translated.y * cos) + center.y;
 
         // Translate the polygon acording to its common speed
-        this.points[i].x += this.speed.x * elapsed;
-        this.points[i].y += this.speed.y * elapsed;
+        this.points[i].x += this.motion.x;
+        this.points[i].y += this.motion.y;
       }
     }
-
-    this.timer.reset();
   }
 
   getCenter() {

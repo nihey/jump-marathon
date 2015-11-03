@@ -9,6 +9,12 @@ export default class Sprite extends Entity {
     this.clips = clips;
     this.indexes = clips.map((o, i) => i);
     this.frequency = frequency;
+
+    this.polygon.acceleration.y = 0.002;
+  }
+
+  jump() {
+    this.polygon.speed.y = -0.7;
   }
 
   draw(context) {

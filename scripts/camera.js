@@ -1,5 +1,3 @@
-import Timer from 'timer';
-
 export default class Camera {
   constructor(canvas, x=0, y=0) {
     this.canvas = canvas;
@@ -9,7 +7,6 @@ export default class Camera {
     this.height = canvas.height;
 
     // Physics options
-    this.timer = new Timer();
     this.acceleration = {x: 0, y: 0, angular: 0};
     this.speed = {x: 0, y: 0, angular: 0};
   }
@@ -20,7 +17,7 @@ export default class Camera {
   }
 
   physics() {
-    let elapsed = this.timer.elapsed();
+    let elapsed = window.elapsed;
 
     // Change speed
     this.speed.x += elapsed * this.acceleration.x;
@@ -28,7 +25,5 @@ export default class Camera {
 
     // Move the camera
     this.move(this.speed.x * elapsed, this.speed.y * elapsed);
-
-    this.timer.reset();
   }
 }

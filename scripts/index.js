@@ -4,6 +4,7 @@ import Camera from 'camera';
 import Spawner from 'spawner';
 import StaticEntity from 'entities/static';
 import Sprite from 'entities/sprite';
+import Timer from 'timer';
 
 imageLoad([
     require('../assets/images/platform.png'),
@@ -34,17 +35,50 @@ imageLoad([
   );
   spawner.start();
 
-  function loop() {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    window.camera.physics();
+  window.addEventListener('keydown', function(event) {
+    if (event.keyCode === 32) {
+      character.jump();
+    }
+  });
 
+  let character = woman;
+  let timer = new Timer();
+  function loop() {
+    window.elapsed = timer.elapsed();
+    var moveCamera = true;
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    character.polygon.physics();
     let platforms = spawner.spawned;
     for (let i = 0; i < platforms.length; ++i) {
       platforms[i].render(context);
+
+      if (character.collides(platforms[i])) {
+        let motion = character.polygon.motion;
+
+        character.move(0, -motion.y);
+        if (!character.collides(platforms[i])) {
+          character.polygon.speed.y = 0;
+          continue;
+        }
+
+        character.move(-motion.x, motion.y);
+        moveCamera = false;
+        if (!character.collides(platforms[i])) {
+          continue;
+        }
+
+        character.polygon.speed.y = 0;
+        character.move(0, -motion.y);
+      }
     }
 
-    woman.render(context);
+    character.draw(context);
 
+    moveCamera && window.camera.physics();
+
+    timer.reset();
     requestAnimationFrame(loop);
   }
 

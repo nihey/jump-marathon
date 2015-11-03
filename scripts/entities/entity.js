@@ -8,12 +8,16 @@ export default class Entity {
     this.camera = window.camera || {x: 0, y: 0};
   }
 
+  move(x, y) {
+    return this.polygon.move(x, y);
+  }
+
   clone(x=this.box.x, y=this.box.y) {
     return new Entity(this.image, x, y, this.box.width, this.box.height);
   }
 
   collides(entity) {
-    this.polygon.collides(entity.polygon);
+    return this.polygon.collides(entity.polygon);
   }
 
   draw(context) {
