@@ -5,6 +5,8 @@ export default class Camera {
     this.canvas = canvas;
     this.x = x;
     this.y = y;
+    this.width = canvas.width;
+    this.height = canvas.height;
 
     // Physics options
     this.timer = new Timer();

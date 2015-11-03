@@ -3,7 +3,6 @@ import Entity from 'entities/entity';
 export default class Sprite extends Entity {
   constructor(image, x, y, width=image.width, height=image.height) {
     super(image, x, y, width, height);
-    this.clip = {width, height};
   }
 
   draw(context) {
