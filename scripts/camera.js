@@ -11,6 +11,10 @@ export default class Camera {
     this.speed = {x: 0, y: 0, angular: 0};
   }
 
+  right() {
+    return this.x + this.width;
+  }
+
   move(x=0, y=0) {
     this.x += x;
     this.x += y;
