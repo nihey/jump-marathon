@@ -101,11 +101,14 @@ export default class Polygon {
     context.beginPath();
 
     // Draw polygon
-    context.moveTo(this.points[0].x, this.points[0].y);
+    context.moveTo(this.points[0].x - window.camera.x,
+                   this.points[0].y - window.camera.y);
     for (let i = 1; i < this.points.length; ++i) {
-      context.lineTo(this.points[i].x, this.points[i].y);
+      context.lineTo(this.points[i].x - window.camera.x,
+                     this.points[i].y - window.camera.y);
     }
-    context.lineTo(this.points[0].x, this.points[0].y);
+    context.lineTo(this.points[0].x - window.camera.x,
+                   this.points[0].y - window.camera.y);
 
     context.closePath();
     context.fill();

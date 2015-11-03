@@ -18,6 +18,7 @@ imageLoad([
 
   let settings = [
     (canvas.width / 3) - 16, (canvas.height / 2) - 16, 32, 32,
+    4, 0, 24, 32,
     [
       [0, 64, 32, 32],
       [32, 64, 32, 32],
@@ -31,7 +32,7 @@ imageLoad([
   man = new Sprite(man, ...settings);
 
   let spawner = new Spawner(
-    [new StaticEntity(platform)]
+    [new StaticEntity(platform, 0, 0, platform.width, platform.height, 0, 32)]
   );
   spawner.start();
 

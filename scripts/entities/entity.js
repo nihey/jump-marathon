@@ -1,9 +1,9 @@
 import Rectangle from 'polygons/rectangle';
 
 export default class Entity {
-  constructor(image, x=0, y=0, width=image.width, height=image.height) {
-    this.box = {x, y, width, height};
-    this.polygon = new Rectangle(x, y, width, height);
+  constructor(image, x=0, y=0, width=image.width, height=image.height, dx=x, dy=y, dw=width, dh=height) {
+    this.box = {x, y, width, height, dx, dy, dw, dh};
+    this.polygon = new Rectangle(x + dx, y + dy, dw, dh);
     this.image = image;
     this.camera = window.camera || {x: 0, y: 0};
   }
@@ -13,7 +13,8 @@ export default class Entity {
   }
 
   clone(x=this.box.x, y=this.box.y) {
-    return new Entity(this.image, x, y, this.box.width, this.box.height);
+    return new Entity(this.image, x, y, this.box.width, this.box.height,
+                      this.box.dx, this.box.dy, this.box.dw, this.box.dh);
   }
 
   collides(entity) {
@@ -21,9 +22,8 @@ export default class Entity {
   }
 
   draw(context) {
-    let points = this.polygon.points;
-    context.drawImage(this.image, points[0].x - this.camera.x,
-                                  points[0].y - this.camera.y);
+    context.drawImage(this.image, this.box.x - this.camera.x,
+                                  this.box.y - this.camera.y);
   }
 
   render(context) {

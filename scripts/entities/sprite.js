@@ -1,8 +1,8 @@
 import Entity from 'entities/entity';
 
 export default class Sprite extends Entity {
-  constructor(image, x, y, width=image.width, height=image.height, clips=[], frequency=10) {
-    super(image, x, y, width, height);
+  constructor(image, x, y, width=image.width, height=image.height, dx=x, dy=y, dw=width, dh=height, clips=[], frequency=10) {
+    super(image, x, y, width, height, dx, dy, dw, dh);
 
     this.clock = 1;
     this.index = 0;
