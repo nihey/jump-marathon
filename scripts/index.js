@@ -124,7 +124,7 @@ imageLoad([
     started = false;
   }
 
-  function loop() {
+  function logic() {
     started || extendTerrain();
     if (character.polygon.points[0].y > (canvas.height + 150)) {
       reset();
@@ -133,11 +133,9 @@ imageLoad([
     window.elapsed = timer.elapsed();
     var moveCamera = true;
 
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
     character.polygon.physics();
     for (let i = 0; i < platforms.length; ++i) {
-      platforms[i].render(context);
+      platforms[i].polygon.physics();
 
       if (character.collides(platforms[i])) {
         let motion = character.polygon.motion;
@@ -159,13 +157,24 @@ imageLoad([
       }
     }
 
-    character.draw(context);
-
     moveCamera && window.camera.physics();
 
     timer.reset();
-    requestAnimationFrame(loop);
+
+    setTimeout(logic, 10);
   }
 
-  requestAnimationFrame(loop);
+  function render() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < platforms.length; ++i) {
+      platforms[i].draw(context);
+    }
+    character.draw(context);
+
+    requestAnimationFrame(render);
+  }
+
+  logic();
+  requestAnimationFrame(render);
 });
