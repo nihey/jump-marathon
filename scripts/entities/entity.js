@@ -4,6 +4,7 @@ export default class Entity {
   constructor(image, x=0, y=0, width=image.width, height=image.height, dx=x, dy=y, dw=width, dh=height) {
     this.box = {x, y, width, height, dx, dy, dw, dh};
     this.polygon = new Rectangle(x + dx, y + dy, dw, dh);
+    this.polygon.onPhysics = this.onPhysics && this.onPhysics.bind(this);
     this.image = image;
     this.camera = window.camera || {x: 0, y: 0};
   }

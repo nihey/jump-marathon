@@ -101,6 +101,12 @@ imageLoad([
     }
   });
 
+  window.addEventListener('keyup', function(event) {
+    if (event.keyCode === 32) {
+      character.dejump();
+    }
+  });
+
   function extendTerrain() {
     let last = platforms[platforms.length - 1];
     if (last.polygon.points[1].x < window.camera.right()) {
@@ -161,7 +167,7 @@ imageLoad([
 
     timer.reset();
 
-    setTimeout(logic, 10);
+    setTimeout(logic, 1000 / 60);
   }
 
   function render() {

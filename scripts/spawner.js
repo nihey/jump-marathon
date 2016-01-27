@@ -1,6 +1,6 @@
 let defaultRange = {
-  x: {min: 0, max: 300},
-  y: {min: 100, max: 300},
+  x: {min: 0, max: 120, delta: Infinity},
+  y: {min: 100, max: 400, delta: 100},
 }
 
 export default class Spawner {
@@ -12,7 +12,15 @@ export default class Spawner {
   }
 
   getRange(axis) {
-    return this.range[axis].min + (this.range[axis].max * Math.random());
+    let range = this.range[axis];
+    let [min, amplitude] = [range.min, range.max - range.min];
+    let last = this.spawned[this.spawned.length - 1];
+    if (last) {
+      min = Math.max(range.min, last.polygon.points[0][axis] - range.delta);
+      amplitude = Math.min(range.max, last.polygon.points[0][axis] + range.delta) - min;
+    }
+
+    return min + (amplitude * Math.random());
   }
 
   spawnable() {

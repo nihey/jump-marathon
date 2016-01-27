@@ -37,6 +37,9 @@ export default class Polygon {
   }
 
   physics() {
+    // Call optional onPhysics Hook
+    this.onPhysics && this.onPhysics();
+
     let elapsed = window.elapsed;
 
     // Change speed
